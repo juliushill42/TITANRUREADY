@@ -1,0 +1,5 @@
+# This directory contains portable development tools
+# It is ignored by git except for this file
+# 
+# After running scripts/setup.bat, this directory will contain:
+# - node/ - Portable Node.js installation

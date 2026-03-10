@@ -1,0 +1,61 @@
+# Python  
+__pycache__/  
+*.py[cod]  
+*.class  
+*.so  
+.Python  
+build/  
+develop-eggs/  
+dist/  
+downloads/  
+eggs/  
+.eggs/  
+lib/  
+lib64/  
+parts/  
+sdist/  
+var/  
+wheels/  
+share/python-wheels/  
+*.egg-info/  
+.installed.cfg  
+*.egg  
+MANIFEST  
+# Virtual Environments  
+venv/  
+env/  
+ENV/  
+env.bak/  
+venv.bak/  
+# Environment Variables  
+*.env  
+.env  
+.env.titanu  
+# IDEs  
+.vscode/  
+.idea/  
+# OS  
+.DS_Store  
+Thumbs.db  
+TitanU-Genesis-Release/  
+# Large Binaries and Archives  
+*.exe  
+*.zip  
+*.tar.gz  
+*.iso  
+*.bin  
+*.dll  
+# Logs  
+*.log  
+*.txt  
+# Specific local files  
+benchmark_results.json  
+titan_data/  
+titanu-release/  
+titanu-release-v3.3/  
+installer/  
+titanu-os/  
+TitanU-Genesis-v3.zip  
+titan_os_launch.zip  
+titan-os-source-code.tar.gz  
+TitanU_OS_v3_Genesis.zip 

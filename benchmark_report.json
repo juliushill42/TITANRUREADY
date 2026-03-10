@@ -1,0 +1,57 @@
+{
+  "timestamp": "2025-11-27T05:20:57.075503",
+  "hardware": {
+    "cpu": {
+      "platform": "Windows",
+      "processor": "AMD64 Family 23 Model 104 Stepping 1, AuthenticAMD",
+      "cores_physical": 8,
+      "cores_logical": 16,
+      "architecture": "AMD64",
+      "python_version": "3.11.0",
+      "model_name": "AMD Ryzen 7 5700U with Radeon Graphics"
+    },
+    "memory": {
+      "total_gb": 13.8,
+      "available_gb": 1.5,
+      "used_percent": 89
+    },
+    "gpu": {
+      "available": false,
+      "name": null,
+      "vram_gb": null
+    }
+  },
+  "ollama": {
+    "running": true,
+    "models": [
+      "qwen2.5:7b",
+      "llama2:latest",
+      "llama3.2:latest",
+      "phi3:mini",
+      "mxbai-embed-large:latest"
+    ],
+    "version": "ollama version is 0.13.0"
+  },
+  "recommendations": [
+    {
+      "model": "phi3:mini",
+      "context_window": 4096,
+      "min_ram": 2,
+      "quality": "fallback",
+      "comfort_level": "comfortable",
+      "optimal_threads": 4,
+      "priority": -1
+    }
+  ],
+  "selected_model": "phi3:mini",
+  "benchmarks": [
+    {
+      "model": "phi3:mini",
+      "success": true,
+      "time_seconds": 17.42,
+      "tokens_per_second": 1.1,
+      "output_preview": "```python\n\ndef print_hello_world():\n\n    print(\"Hello, World!\")\n\n\n# Call the function to display \"He...",
+      "error": null
+    }
+  ]
+}

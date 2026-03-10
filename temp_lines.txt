@@ -1,0 +1,284 @@
+/**
+ * TITANU AI — TitanU OS (Commander Edition)
+ * Electron Main Process
+ * Manages window, spawns Python backend, handles IPC
+ */
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const { spawn } = require('child_process');
+
+// Development mode check
+const isDev = !app.isPackaged;
+
+// Python backend process
+let pythonProcess = null;
+let mainWindow = null;
+
+// Queue for messages while Python is starting
+let messageQueue = [];
+let pythonReady = false;
+
+// Pending invoke requests (for request-response correlation)
+let pendingInvokes = new Map();
+let invokeIdCounter = 0;
+
+/**
+ * Find Python executable on Windows
+ */
+function findPythonExecutable() {
+    if (process.platform === 'win32') {
+        const fs = require('fs');
+        // Common Python installation locations on Windows
+        const possiblePaths = [
+            path.join(process.env.LOCALAPPDATA, 'Programs', 'Python', 'Python313', 'python.exe'),
+            path.join(process.env.LOCALAPPDATA, 'Programs', 'Python', 'Python312', 'python.exe'),
+            path.join(process.env.LOCALAPPDATA, 'Programs', 'Python', 'Python311', 'python.exe'),
+            path.join(process.env.LOCALAPPDATA, 'Programs', 'Python', 'Python310', 'python.exe'),
+            'C:\\Python313\\python.exe',
+            'C:\\Python312\\python.exe',
+            'C:\\Python311\\python.exe',
+            'C:\\Python310\\python.exe',
+        ];
+        
+        for (const pythonPath of possiblePaths) {
+            if (fs.existsSync(pythonPath)) {
+                console.log('[TitanU] Found Python at:', pythonPath);
+                return pythonPath;
+            }
+        }
+        
+        console.log('[TitanU] No Python found in common locations, falling back to "python"');
+        return 'python';
+    }
+    return 'python3';
+}
+
+/**
+ * Spawn the Python backend process
+ */
+function startPythonBackend() {
+    const pythonPath = isDev
+        ? path.join(__dirname, '..', '..', 'backend', 'core', 'main.py')
+        : path.join(process.resourcesPath, 'backend', 'core', 'main.py');
+
+    console.log('[TitanU] Starting Python backend:', pythonPath);
+
+    // Find Python executable
+    const pythonCmd = findPythonExecutable();
+    console.log('[TitanU] Using Python command:', pythonCmd);
+    console.log('[TitanU] Python script path:', pythonPath);
+    console.log('[TitanU] Working directory:', path.dirname(pythonPath));
+
+    pythonProcess = spawn(pythonCmd, [pythonPath], {
+        cwd: path.dirname(pythonPath),
+        stdio: ['pipe', 'pipe', 'pipe']
+    });
+
+    // Handle stdout (JSON responses from Python)
+    let buffer = '';
+    pythonProcess.stdout.on('data', (data) => {
+        const strData = data.toString();
+        console.log('[TitanU] Raw stdout chunk:', strData);
+        buffer += strData;
+        
+        // Process complete JSON lines
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // Keep incomplete line in buffer
+        
+        for (const line of lines) {
+            if (line.trim()) {
+                try {
+                    const response = JSON.parse(line);
+                    console.log('[TitanU Python] Response:', response);
+                    
+                    // Check for ready signal
+                    if (response.status === 'ready') {
+                        pythonReady = true;
+                        // Process queued messages
+                        while (messageQueue.length > 0) {
+                            const msg = messageQueue.shift();
+                            sendToPython(msg.command, msg.params, msg.event, msg.invokeId);
+                        }
+                    }
+                    
+                    // Resolve pending invoke if this is a response
+                    // Resolve the oldest pending invoke (FIFO since Python processes sequentially)
+                    if (pendingInvokes.size > 0) {
+                        const [invokeId, resolver] = pendingInvokes.entries().next().value;
+                        pendingInvokes.delete(invokeId);
+                        resolver(response);
+                        console.log('[TitanU] Resolved invoke:', invokeId);
+                    }
+                    
+                    // Send response to renderer (for onResponse listeners)
+                    if (mainWindow && !mainWindow.isDestroyed()) {
+                        mainWindow.webContents.send('python-response', response);
+                    }
+                } catch (e) {
+                    console.error('[TitanU] Failed to parse Python response:', e);
+                }
+            }
+        }
+    });
+
+    // Handle stderr (error logs from Python)
+    pythonProcess.stderr.on('data', (data) => {
+        console.error('[TitanU Python Error]', data.toString());
+    });
+
+    // Handle process exit
+    pythonProcess.on('close', (code) => {
+        console.log('[TitanU] Python process exited with code:', code);
+        pythonProcess = null;
+        pythonReady = false;
+    });
+
+    pythonProcess.on('error', (err) => {
+        console.error('[TitanU] Failed to start Python process:', err);
+    });
+    
+    if (pythonProcess.pid) {
+        console.log('[TitanU] Python process spawned with PID:', pythonProcess.pid);
+    } else {
+        console.error('[TitanU] Failed to spawn Python process (no PID)');
+    }
+}
+
+/**
+ * Send command to Python backend
+ */
+function sendToPython(command, params = {}, event = null, invokeId = null) {
+    const message = JSON.stringify({ command, params }) + '\n';
+    
+    if (!pythonReady) {
+        messageQueue.push({ command, params, event, invokeId });
+        console.log('[TitanU] Queued command (Python not ready):', command);
+        return;
+    }
+    
+    if (pythonProcess && pythonProcess.stdin.writable) {
+        pythonProcess.stdin.write(message);
+        console.log('[TitanU] Sent to Python:', command);
+    } else {
+        console.error('[TitanU] Cannot send to Python - process not available');
+        if (event) {
+            event.reply('python-response', {
+                status: 'error',
+                error: 'Python backend not available'
+            });
+        }
+        // Resolve pending invoke with error
+        if (invokeId && pendingInvokes.has(invokeId)) {
+            const resolver = pendingInvokes.get(invokeId);
+            pendingInvokes.delete(invokeId);
+            resolver({ status: 'error', error: 'Python backend not available' });
+        }
+    }
+}
+
+/**
+ * Create the main application window
+ */
+function createWindow() {
+    mainWindow = new BrowserWindow({
+        width: 1400,
+        height: 900,
+        minWidth: 1000,
+        minHeight: 700,
+        backgroundColor: '#050505', // Commander Edition dark graphite
+        title: 'TitanU OS',
+        titleBarStyle: 'hiddenInset',
+        frame: process.platform === 'darwin',
+        show: false, // Don't show until ready and maximized
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js'),
+            webviewTag: true
+        }
+    });
+
+    // Load the app
+    if (isDev) {
+        mainWindow.loadURL('http://localhost:5173');
+        // mainWindow.webContents.openDevTools(); // Disabled for demo recording
+    } else {
+        mainWindow.loadFile(path.join(__dirname, 'renderer', 'dist', 'index.html'));
+    }
+
+    // Maximize window and show after load
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.maximize();
+        mainWindow.show();
+    });
+
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
+
+    // Send boot command when window is ready
+    mainWindow.webContents.on('did-finish-load', () => {
+        sendToPython('boot', {});
+    });
+}
+
+// IPC Handlers
+ipcMain.on('send-command', (event, { command, params }) => {
+    sendToPython(command, params, event);
+});
+
+ipcMain.handle('invoke-command', async (event, { command, params }) => {
+    return new Promise((resolve) => {
+        const invokeId = ++invokeIdCounter;
+        
+        // Register this invoke to be resolved when response arrives
+        pendingInvokes.set(invokeId, resolve);
+        
+        // Send command to Python
+        sendToPython(command, params, event, invokeId);
+        
+        // Timeout after 120 seconds (LLM calls can be slow)
+        setTimeout(() => {
+            if (pendingInvokes.has(invokeId)) {
+                pendingInvokes.delete(invokeId);
+                console.warn('[TitanU] Invoke timeout for:', command);
+                resolve({ status: 'error', error: 'Request timeout (120s)' });
+            }
+        }, 120000);
+    });
+});
+
+// App lifecycle
+app.whenReady().then(() => {
+    console.log('[TitanU] Starting TitanU OS');
+    startPythonBackend();
+    createWindow();
+
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow();
+        }
+    });
+});
+
+app.on('window-all-closed', () => {
+    // Shutdown Python backend
+    if (pythonProcess) {
+        sendToPython('shutdown', {});
+        setTimeout(() => {
+            if (pythonProcess) {
+                pythonProcess.kill();
+            }
+        }, 1000);
+    }
+    
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('before-quit', () => {
+    if (pythonProcess) {
+        pythonProcess.kill();
+    }
+});

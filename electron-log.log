@@ -1,0 +1,402 @@
+[2025-12-06 23:45:45.864] [info]  App starting...
+[2025-12-06 23:45:45.899] [info]  [TitanU] Main process script started.
+[2025-12-06 23:45:45.901] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-06 23:45:45.904] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-06 23:45:45.907] [info]  [TitanU] Is Packaged: false
+[2025-12-06 23:45:45.911] [info]  [TitanU] isDev flag set to: true
+[2025-12-06 23:45:46.068] [info]  App ready, creating window...
+[2025-12-06 23:45:46.070] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-06 23:45:46.074] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-06 23:45:46.078] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-06 23:45:46.082] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-06 23:45:46.083] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-06 23:45:47.542] [error] [Python Error] Traceback (most recent call last):
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 48, in <module>
+
+[2025-12-06 23:45:47.546] [error] [Python Error]     from notifications import handle_notifications_command, notifications
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\notifications.py", line 11, in <module>
+
+[2025-12-06 23:45:47.548] [error] [Python Error]     from utils import format_response, log_error
+ImportError: cannot import name 'format_response' from 'utils' (C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\utils.py)
+
+[2025-12-06 23:45:47.661] [warn]  [TitanU] Python backend exited with code 1, signal null
+[2025-12-06 23:45:48.640] [info]  createWindow function called
+[2025-12-06 23:45:48.642] [info]  [TitanU] Creating main window...
+[2025-12-06 23:45:48.754] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-06 23:45:48.805] [info]  Window created successfully.
+[2025-12-06 23:45:49.884] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-06 23:45:50.416] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-06 23:45:58.798] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:45:58.803] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:08.137] [error] Error occurred in handler for 'memory': Error: No handler registered for 'memory'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:08.139] [error] Error occurred in handler for 'memory': Error: No handler registered for 'memory'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:10.897] [error] Error occurred in handler for 'files': Error: No handler registered for 'files'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:10.899] [error] Error occurred in handler for 'files': Error: No handler registered for 'files'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:13.835] [error] Error occurred in handler for 'memory': Error: No handler registered for 'memory'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:13.837] [error] Error occurred in handler for 'memory': Error: No handler registered for 'memory'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:46:20.184] [debug] [Renderer->Electron] Received titan-request: {"command":"prompt","params":{"text":"create agent"}}
+[2025-12-06 23:46:20.186] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-06 23:54:30.267] [info]  App starting...
+[2025-12-06 23:54:30.295] [info]  [TitanU] Main process script started.
+[2025-12-06 23:54:30.297] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-06 23:54:30.300] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-06 23:54:30.303] [info]  [TitanU] Is Packaged: false
+[2025-12-06 23:54:30.306] [info]  [TitanU] isDev flag set to: true
+[2025-12-06 23:54:30.457] [info]  App ready, creating window...
+[2025-12-06 23:54:30.460] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-06 23:54:30.463] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-06 23:54:30.467] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-06 23:54:30.471] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-06 23:54:30.475] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-06 23:54:32.126] [error] [Python Error] Traceback (most recent call last):
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 48, in <module>
+
+[2025-12-06 23:54:32.130] [error] [Python Error]     from notifications import handle_notifications_command, notifications
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\notifications.py", line 11, in <module>
+    from .utils import format_response, log_error
+ImportError: attempted relative import with no known parent package
+
+[2025-12-06 23:54:32.278] [warn]  [TitanU] Python backend exited with code 1, signal null
+[2025-12-06 23:54:33.025] [info]  createWindow function called
+[2025-12-06 23:54:33.027] [info]  [TitanU] Creating main window...
+[2025-12-06 23:54:33.349] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-06 23:54:33.515] [info]  Window created successfully.
+[2025-12-06 23:54:35.056] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-06 23:54:35.492] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-06 23:54:43.978] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:54:43.983] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:54:52.741] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-06 23:55:01.461] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:55:01.464] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:55:18.816] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-06 23:55:27.410] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-06 23:55:27.412] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:13:11.857] [info]  App starting...
+[2025-12-07 00:13:11.925] [info]  [TitanU] Main process script started.
+[2025-12-07 00:13:11.929] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-07 00:13:11.933] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-07 00:13:11.937] [info]  [TitanU] Is Packaged: false
+[2025-12-07 00:13:11.939] [info]  [TitanU] isDev flag set to: true
+[2025-12-07 00:13:12.081] [info]  App ready, creating window...
+[2025-12-07 00:13:12.084] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-07 00:13:12.088] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-07 00:13:12.092] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-07 00:13:12.097] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-07 00:13:12.101] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-07 00:13:14.651] [info]  createWindow function called
+[2025-12-07 00:13:14.655] [info]  [TitanU] Creating main window...
+[2025-12-07 00:13:15.014] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-07 00:13:15.159] [info]  Window created successfully.
+[2025-12-07 00:13:15.715] [error] [Python Error] [TITAN ERROR] check_ollama_status: An unexpected error occurred during Ollama status check: 404 Client Error: Not Found for url: http://localhost:11434/v1/api/tags
+
+[2025-12-07 00:13:15.723] [debug] [Python] Received JSON: {"status":"error","type":"titan-error","payload":{"message":"An unexpected error occurred while checking for local LLM service."}}
+[2025-12-07 00:13:15.726] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"ready","message":"Titan Backend is online."}}
+[2025-12-07 00:13:15.728] [info]  [TitanU] Python backend is ready!
+[2025-12-07 00:13:16.190] [error] [Python Error] ERROR:asyncio:Exception in callback _ProactorReadPipeTransport._loop_reading()
+handle: <Handle _ProactorReadPipeTransport._loop_reading()>
+Traceback (most recent call last):
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 301, in _loop_reading
+    self._read_fut = self._loop._proactor.recv_into(self._sock, self._data)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 473, in recv_into
+    self._register_with_iocp(conn)
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 743, in _register_with_iocp
+    _overlapped.CreateIoCompletionPort(obj.fileno(), self._iocp, 0, 0)
+OSError: [WinError 6] The handle is invalid
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 311, in _loop_reading
+    self._fatal_error(exc, 'Fatal read error on pipe transport')
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 131, in _fatal_error
+    self._force_close(exc)
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 134, in _force_close
+    if self._empty_waiter is not None and not self._empty_waiter.done():
+       ^^^^^^^^^^^^^^^^^^
+AttributeError: '_ProactorReadPipeTransport' object has no attribute '_empty_waiter'
+
+[2025-12-07 00:13:16.356] [debug] [Electron->Py] Sent: "boot"
+[2025-12-07 00:13:16.897] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:13:16.905] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:13:17.005] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-07 00:13:33.379] [debug] [Electron->Py] Sent: "boot"
+[2025-12-07 00:13:33.648] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:13:33.651] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:22:39.015] [info]  [TitanU] All windows closed. Killing backend process.
+[2025-12-07 00:22:39.019] [info]  [TitanU] App quit triggered. Killing backend process.
+[2025-12-07 00:22:39.061] [warn]  [TitanU] Python backend exited with code null, signal SIGTERM
+[2025-12-07 00:27:27.291] [info]  App starting...
+[2025-12-07 00:27:27.315] [info]  [TitanU] Main process script started.
+[2025-12-07 00:27:27.317] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-07 00:27:27.320] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-07 00:27:27.324] [info]  [TitanU] Is Packaged: false
+[2025-12-07 00:27:27.327] [info]  [TitanU] isDev flag set to: true
+[2025-12-07 00:27:27.476] [info]  App ready, creating window...
+[2025-12-07 00:27:27.478] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-07 00:27:27.481] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-07 00:27:27.485] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-07 00:27:27.489] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-07 00:27:27.492] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-07 00:27:30.029] [info]  createWindow function called
+[2025-12-07 00:27:30.031] [info]  [TitanU] Creating main window...
+[2025-12-07 00:27:30.159] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-07 00:27:30.229] [info]  Window created successfully.
+[2025-12-07 00:27:30.883] [error] [Python Error] [TITAN ERROR] check_ollama_status: An unexpected error occurred during Ollama status check: 404 Client Error: Not Found for url: http://localhost:11434/v1/api/tags
+
+[2025-12-07 00:27:30.889] [debug] [Python] Received JSON: {"status":"error","type":"titan-error","payload":{"message":"An unexpected error occurred while checking for local LLM service."}}
+[2025-12-07 00:27:30.892] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"ready","message":"Titan Backend is online."}}
+[2025-12-07 00:27:30.895] [info]  [TitanU] Python backend is ready!
+[2025-12-07 00:27:30.897] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"shutdown","message":"Backend process terminated."}}
+[2025-12-07 00:27:30.905] [error] [Python Error] Traceback (most recent call last):
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 433, in <module>
+    asyncio.run(main_loop())
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+
+[2025-12-07 00:27:30.949] [error] [Python Error]     return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+
+[2025-12-07 00:27:30.953] [error] [Python Error]   File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 650, in run_until_complete
+
+[2025-12-07 00:27:31.056] [error] [Python Error]     return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 392, in main_loop
+
+[2025-12-07 00:27:31.061] [error] [Python Error]     line_bytes = await reader.readline()
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 545, in readline
+
+[2025-12-07 00:27:31.079] [debug] [Electron->Py] Sent: "boot"
+[2025-12-07 00:27:31.226] [error] [Python Error]     line = await self.readuntil(sep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 637, in readuntil
+
+[2025-12-07 00:27:31.230] [error] [Python Error]     await self._wait_for_data('readuntil')
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 522, in _wait_for_data
+    await self._waiter
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 301, in _loop_reading
+    self._read_fut = self._loop._proactor.recv_into(self._sock, self._data)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 473, in recv_into
+
+[2025-12-07 00:27:31.233] [error] [Python Error]     self._register_with_iocp(conn)
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 743, in _register_with_iocp
+
+[2025-12-07 00:27:31.239] [error] [Python Error]     _overlapped.CreateIoCompletionPort(obj.fileno(), self._iocp, 0, 0)
+OSError: [WinError 6] The handle is invalid
+
+[2025-12-07 00:27:31.418] [warn]  [TitanU] Python backend exited with code 1, signal null
+[2025-12-07 00:27:31.506] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:27:31.510] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 00:27:31.776] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-07 00:59:39.043] [info]  [TitanU] App quit triggered. Killing backend process.
+[2025-12-07 00:59:58.648] [info]  App starting...
+[2025-12-07 00:59:58.665] [info]  [TitanU] Main process script started.
+[2025-12-07 00:59:58.667] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-07 00:59:58.669] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-07 00:59:58.672] [info]  [TitanU] Is Packaged: false
+[2025-12-07 00:59:58.674] [info]  [TitanU] isDev flag set to: true
+[2025-12-07 00:59:58.754] [info]  App ready, creating window...
+[2025-12-07 00:59:58.756] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-07 00:59:58.758] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-07 00:59:58.761] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-07 00:59:58.764] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-07 00:59:58.765] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-07 00:59:59.605] [error] [Python Error] Traceback (most recent call last):
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 84, in <module>
+
+[2025-12-07 00:59:59.609] [error] [Python Error]     from notifications import handle_notifications_command, notifications
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\notifications.py", line 11, in <module>
+    from core.utils import format_response, log_error
+ModuleNotFoundError: No module named 'core'
+
+[2025-12-07 00:59:59.695] [warn]  [TitanU] Python backend exited with code 1, signal null
+[2025-12-07 01:00:01.307] [info]  createWindow function called
+[2025-12-07 01:00:01.310] [info]  [TitanU] Creating main window...
+[2025-12-07 01:00:01.383] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-07 01:00:01.411] [info]  Window created successfully.
+[2025-12-07 01:00:01.935] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-07 01:00:02.804] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-07 01:00:10.669] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 01:00:10.673] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 01:01:38.550] [info]  App starting...
+[2025-12-07 01:01:38.567] [info]  [TitanU] Main process script started.
+[2025-12-07 01:01:38.571] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-07 01:01:38.573] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-07 01:01:38.576] [info]  [TitanU] Is Packaged: false
+[2025-12-07 01:01:38.578] [info]  [TitanU] isDev flag set to: true
+[2025-12-07 01:01:38.662] [info]  App ready, creating window...
+[2025-12-07 01:01:38.663] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-07 01:01:38.665] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-07 01:01:38.667] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-07 01:01:38.668] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-07 01:01:38.672] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-07 01:01:41.209] [info]  createWindow function called
+[2025-12-07 01:01:41.211] [info]  [TitanU] Creating main window...
+[2025-12-07 01:01:41.325] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-07 01:01:41.358] [info]  Window created successfully.
+[2025-12-07 01:01:41.615] [error] [Python Error] [TITAN ERROR] check_ollama_status: An unexpected error occurred during Ollama status check: 404 Client Error: Not Found for url: http://localhost:11434/v1/api/tags
+
+[2025-12-07 01:01:41.618] [debug] [Python] Received JSON: {"status":"error","type":"titan-error","payload":{"message":"An unexpected error occurred while checking for local LLM service."}}
+[2025-12-07 01:01:41.621] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"ready","message":"Titan Backend is online."}}
+[2025-12-07 01:01:41.623] [info]  [TitanU] Python backend is ready!
+[2025-12-07 01:01:41.626] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"shutdown","message":"Backend process terminated."}}
+[2025-12-07 01:01:41.631] [error] [Python Error] Traceback (most recent call last):
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 436, in <module>
+    asyncio.run(main_loop())
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 650, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 395, in main_loop
+    line_bytes = await reader.readline()
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 545, in readline
+    line = await self.readuntil(sep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 637, in readuntil
+    await self._wait_for_data('readuntil')
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 522, in _wait_for_data
+    await self._waiter
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 301, in _loop_reading
+
+[2025-12-07 01:01:41.634] [error] [Python Error]     self._read_fut = self._loop._proactor.recv_into(self._sock, self._data)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 473, in recv_into
+    self._register_with_iocp(conn)
+
+[2025-12-07 01:01:41.638] [error] [Python Error]   File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 743, in _register_with_iocp
+    _overlapped.CreateIoCompletionPort(obj.fileno(), self._iocp, 0, 0)
+OSError: [WinError 6] The handle is invalid
+
+[2025-12-07 01:01:41.933] [warn]  [TitanU] Python backend exited with code 1, signal null
+[2025-12-07 01:01:42.482] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-07 01:01:42.899] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-07 01:01:50.894] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 01:01:50.896] [error] Error occurred in handler for 'agents': Error: No handler registered for 'agents'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 01:02:08.715] [error] Error occurred in handler for 'files': Error: No handler registered for 'files'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 01:02:08.717] [error] Error occurred in handler for 'files': Error: No handler registered for 'files'
+    at WebContents.<anonymous> (node:electron/js2c/browser_init:2:78076)
+    at WebContents.emit (node:events:517:28)
+[2025-12-07 01:05:55.692] [info]  [TitanU] App quit triggered. Killing backend process.
+[2025-12-07 01:05:56.726] [info]  [TitanU] App quit triggered. Killing backend process.
+[2025-12-07 01:08:01.862] [info]  App starting...
+[2025-12-07 01:08:01.880] [info]  [TitanU] Main process script started.
+[2025-12-07 01:08:01.882] [info]  [TitanU] App Path: C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\frontend\electron
+[2025-12-07 01:08:01.884] [info]  [TitanU] User Data Path: C:\Users\juliu\AppData\Roaming\titanu-os-commander-edition
+[2025-12-07 01:08:01.886] [info]  [TitanU] Is Packaged: false
+[2025-12-07 01:08:01.888] [info]  [TitanU] isDev flag set to: true
+[2025-12-07 01:08:01.971] [info]  App ready, creating window...
+[2025-12-07 01:08:01.973] [info]  [TitanU] App is ready. Starting backend...
+[2025-12-07 01:08:01.976] [info]  [TitanU] Attempting to start Python backend...
+[2025-12-07 01:08:01.979] [info]  [TitanU] Running in DEVELOPMENT mode
+[2025-12-07 01:08:01.982] [info]  [TitanU] Found project venv Python at: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe
+[2025-12-07 01:08:01.984] [info]  [TitanU] Spawning backend: c:/Users/juliu/Desktop/Titan_OS_Launch/venv/Scripts/python.exe C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py
+[2025-12-07 01:08:04.515] [info]  createWindow function called
+[2025-12-07 01:08:04.516] [info]  [TitanU] Creating main window...
+[2025-12-07 01:08:04.607] [info]  [TitanU] Development mode: Loading from Vite server at http://localhost:5173
+[2025-12-07 01:08:04.648] [info]  Window created successfully.
+[2025-12-07 01:08:04.874] [error] [Python Error] [TITAN ERROR] check_ollama_status: An unexpected error occurred during Ollama status check: 404 Client Error: Not Found for url: http://localhost:11434/v1/api/tags
+
+[2025-12-07 01:08:04.878] [debug] [Python] Received JSON: {"status":"error","type":"titan-error","payload":{"message":"An unexpected error occurred while checking for local LLM service."}}
+[2025-12-07 01:08:04.882] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"ready","message":"Titan Backend is online."}}
+[2025-12-07 01:08:04.884] [info]  [TitanU] Python backend is ready!
+[2025-12-07 01:08:04.886] [debug] [Python] Received JSON: {"type":"status","payload":{"status":"shutdown","message":"Backend process terminated."}}
+[2025-12-07 01:08:04.896] [error] [Python Error] Traceback (most recent call last):
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 436, in <module>
+    asyncio.run(main_loop())
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 650, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\Desktop\Titan_OS_Launch\titanu-os\backend\core\main.py", line 395, in main_loop
+    line_bytes = await reader.readline()
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 545, in readline
+    line = await self.readuntil(sep)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 637, in readuntil
+    await self._wait_for_data('readuntil')
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\streams.py", line 522, in _wait_for_data
+    await self._waiter
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 301, in _loop_reading
+    self._read_fut = self._loop._proactor.recv_into(self._sock, self._data)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 473, in recv_into
+    self._register_with_iocp(conn)
+  File "C:\Users\juliu\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 743, in _register_with_iocp
+    _overlapped.CreateIoCompletionPort(obj.fileno(), self._iocp, 0, 0)
+OSError: [WinError 6] The handle is invalid
+
+[2025-12-07 01:08:05.107] [warn]  [TitanU] Python backend exited with code 1, signal null
+[2025-12-07 01:08:05.339] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-07 01:08:06.100] [info]  [TitanU] Window is ready to show. Maximizing and showing.
+[2025-12-07 01:08:14.013] [debug] [Renderer->Electron] Handling 'agents' request with payload: {"action":"list"}
+[2025-12-07 01:08:14.015] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
+[2025-12-07 01:08:14.016] [debug] [Renderer->Electron] Handling 'agents' request with payload: {"action":"list"}
+[2025-12-07 01:08:14.018] [error] [Electron->Py] FAILED to send. Backend not ready or writable.
