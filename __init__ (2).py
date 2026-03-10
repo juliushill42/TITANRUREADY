@@ -1,100 +1,77 @@
-# TitanU OS Prompt Architecture v1.0 Plan
+"""
+TitanU OS MCP (Model Context Protocol) Integration
+===================================================
 
-## 1. Overview
-The goal is to centralize and standardize prompt management in `titanu-os/backend`. Currently, prompts are scattered between `personality.py` and `prompts/core_brain.py`. The new architecture will use a **PromptLoader** class to handle dynamic loading, versioning, inheritance, and mode switching (Fast vs. Reasoning).
+Provides standardized tool calling for the Central Brain.
 
-## 2. Directory Structure
-We will create a new directory `titanu-os/backend/prompts/` to house the loader and prompt definitions. We will use **JSON** for prompt definitions to ensure standard library compatibility (no new dependencies) while separating data from code.
+The MCP (Model Context Protocol) system enables the TitanU OS Central Brain
+to invoke tools through structured JSON schema calls. This provides a safe,
+sandboxed environment for executing operations locally.
 
-```text
-titanu-os/backend/prompts/
-├── __init__.py
-├── loader.py                 # Core PromptLoader class implementation
-└── definitions/              # JSON prompt definitions
-    ├── core.json             # Main Titan system prompt (personality)
-    ├── agents/
-    │   ├── analyzer.json
-    │   ├── executor.json
-    │   ├── researcher.json
-    │   └── optimizer.json
-    └── common/               # Shared prompt fragments/mixins
-        ├── safety.json
-        └── identity.json
-```
+Components:
+-----------
+- MCPServer: Local tool execution engine with built-in safety measures
+- MCPClient: Client interface for connecting to MCP servers
+- MCPError: Exception class for MCP errors
+- MCPRouter: Routes tool calls to appropriate handlers (future)
 
-## 3. Prompt Definition Format (JSON)
-Each prompt file will support inheritance and mode-specific overrides.
+Built-in Tools:
+--------------
+- file.read: Read file contents
+- file.write: Write file contents (with confirmation)
+- file.list: List files in directory
+- process.spawn: Spawn background process
+- process.exec: Execute command and wait for result
+- http.get: HTTP GET request
+- http.post: HTTP POST request
+- system.info: Get system information
 
-**Example `definitions/core.json`:**
-```json
-{
-  "id": "core_titan",
-  "version": "1.0",
-  "base_prompt": "You are TITAN, a local AI operating system.",
-  "modes": {
-    "default": {
-      "system": "{base_prompt} Be direct and concise."
-    },
-    "reasoning": {
-      "system": "{base_prompt} Think step-by-step. Analyze constraints before answering."
-    },
-    "fast": {
-      "system": "{base_prompt} Answer immediately. No fluff."
-    }
-  },
-  "variables": ["memory_context"]
-}
-```
-
-## 4. PromptLoader Class Design (`loader.py`)
-
-### Responsibilities
-1.  **Loading**: Read JSON files from `definitions/`.
-2.  **Caching**: Cache loaded prompts to minimize disk I/O.
-3.  **Inheritance**: Allow prompts to extend others (optional, for future expansion).
-4.  **Mode Switching**: Select the correct text based on `mode` (default, reasoning, fast).
-5.  **Formatting**: Inject dynamic variables (e.g., `memory_context`).
-
-### Class Interface
-```python
-class PromptLoader:
-    def __init__(self, prompts_dir: str):
-        self.prompts_dir = prompts_dir
-        self.cache = {}
-
-    def get_prompt(self, prompt_id: str, mode: str = "default", **kwargs) -> str:
-        """
-        Retrieves a formatted prompt string.
-        
-        Args:
-            prompt_id: The ID of the prompt (e.g., 'core', 'agents/analyzer')
-            mode: 'default', 'fast', or 'reasoning'
-            **kwargs: Variables to inject into the prompt (e.g., memory_context)
-        """
-        pass
+Usage:
+------
+    from mcp import MCPServer, MCPClient
     
-    def _load_file(self, prompt_id: str) -> dict:
-        """Internal method to load and parse JSON."""
-        pass
-```
+    # Create server and client
+    server = MCPServer(sandbox_root="./workspace")
+    client = MCPClient(server)
+    
+    # Call tools via client
+    content = await client.read_file("config.json")
+    result = await client.exec_command("python --version")
+    
+    # Or use factory function
+    from mcp import create_mcp_client
+    client = create_mcp_client("./workspace")
+    files = await client.list_files(".", pattern="*.py")
 
-## 5. Integration Plan
+Copyright (c) 2025 TitanU OS Project
+"""
 
-### Step 1: Create Structure
-- Create `titanu-os/backend/prompts/` and subdirectories.
-- Create `loader.py`.
+from .server import MCPServer, create_mcp_server
+from .client import MCPClient, MCPError, create_mcp_client, create_client_only
+from .router import (
+    MCPRouter,
+    RoutingRule,
+    create_router,
+    INTENT_PATTERNS,
+    INTENT_TO_TOOL
+)
 
-### Step 2: Migrate Core Prompts
-- Convert `TITAN_SYSTEM_PROMPT` from `titanu-os/backend/core/personality.py` into `titanu-os/backend/prompts/definitions/core.json`.
-- Ensure personality traits and memory injection are preserved.
+__version__ = "2.5.0"
+__author__ = "TitanU OS Team"
 
-### Step 3: Migrate Agent Prompts
-- Convert `AGENT_PROMPTS` from `prompts/core_brain.py` into individual JSON files in `titanu-os/backend/prompts/definitions/agents/`.
-
-### Step 4: Integrate with Backend
-- Modify `titanu-os/backend/core/personality.py` to use `PromptLoader` instead of hardcoded strings.
-- Modify `titan_llm.py` or the agent handlers to request prompts via the loader.
-
-### Step 5: Testing
-- Create `titanu-os/backend/prompts/test_loader.py` to verify loading, mode switching, and formatting.
-
+__all__ = [
+    # Server
+    'MCPServer',
+    'create_mcp_server',
+    # Client
+    'MCPClient',
+    'MCPError',
+    'create_mcp_client',
+    'create_client_only',
+    # Router
+    'MCPRouter',
+    'RoutingRule',
+    'create_router',
+    'INTENT_PATTERNS',
+    'INTENT_TO_TOOL',
+]

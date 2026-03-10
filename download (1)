@@ -1,5 +1,10 @@
-# This directory contains portable development tools
-# It is ignored by git except for this file
+# Portable Node.js installation directory
 # 
-# After running scripts/setup.bat, this directory will contain:
-# - node/ - Portable Node.js installation
+# This directory will contain Node.js v20.10.0 after running:
+#   scripts\setup.bat
+# 
+# Contents after setup:
+# - node.exe
+# - npm.cmd
+# - npx.cmd
+# - node_modules/ (npm packages)

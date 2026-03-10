@@ -1,224 +1,121 @@
-"""
-TitanU OS v2.5 — Central Brain Architecture
-============================================
-Single coordinator → Multiple tool agents
-"""
+# Migrating from Vast.ai to RunPod for TitanU OS
 
-import asyncio
-import json
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass
-from prompts.core_brain import CORE_BRAIN_IDENTITY, AGENT_PROMPTS
+Since the Vast.ai pod has stopped, we are migrating to RunPod for better stability and to avoid PTY/connection errors.
 
+## 1. Recommended Template
 
-@dataclass
-class AgentResult:
-    """Result from an agent execution."""
-    agent_id: str
-    success: bool
-    result: str
-    error: Optional[str] = None
+When creating a new Pod on RunPod, search for and select this specific template:
 
+**`runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04`**
 
-class CentralBrain:
-    """
-    The single coordinating intelligence of TitanU OS.
-    All requests flow through here → routed to specialized agents.
-    """
-    
-    def __init__(self, llm_client):
-        self.llm = llm_client
-        self.system_prompt = CORE_BRAIN_IDENTITY
-        self.conversation_history = []
-        self.agents = {
-            "analyzer": Agent("analyzer", AGENT_PROMPTS["analyzer"], llm_client),
-            "executor": Agent("executor", AGENT_PROMPTS["executor"], llm_client),
-            "researcher": Agent("researcher", AGENT_PROMPTS["researcher"], llm_client),
-            "optimizer": Agent("optimizer", AGENT_PROMPTS["optimizer"], llm_client),
-        }
-        self.custom_agents = {}
-    
-    async def process(self, user_input: str) -> str:
-        """
-        Central processing pipeline:
-        1. Understand intent
-        2. Route to agents if needed
-        3. Synthesize response
-        """
-        # Add to history
-        self.conversation_history.append({"role": "user", "content": user_input})
-        
-        # Determine routing
-        routing = await self._determine_routing(user_input)
-        
-        if routing.get("direct", False):
-            # Simple query - respond directly
-            response = await self._direct_response(user_input)
-        else:
-            # Complex - route to agents
-            agent_ids = routing.get("agents", ["analyzer"])
-            agent_results = await self._execute_agents(agent_ids, user_input)
-            response = await self._synthesize(user_input, agent_results)
-        
-        self.conversation_history.append({"role": "assistant", "content": response})
-        return response
-    
-    async def _determine_routing(self, task: str) -> Dict[str, Any]:
-        """Analyze task and decide routing."""
-        routing_prompt = f"""
-Analyze this task and decide how to handle it:
+### Why this template?
+- **PyTorch 2.8.0**: Latest stable version with vLLM support.
+- **Python 3.11**: Required for modern vLLM versions.
+- **CUDA 12.8.1**: Supports newer GPUs (A40, RTX 4090, etc.).
+- **Ubuntu 22.04**: Compatible base OS.
 
-TASK: {task}
+## 2. Essential Configuration (Prevent PTY Errors)
 
-AVAILABLE AGENTS:
-- ANALYZER: For reasoning, analysis, patterns
-- EXECUTOR: For actions, commands, file operations
-- RESEARCHER: For gathering information
-- OPTIMIZER: For improvements, efficiency
+Before starting the pod, configure these settings:
 
-Respond with JSON only:
-{{
-    "direct": true/false,
-    "reasoning": "Why this routing",
-    "agents": ["agent1", "agent2"] or []
-}}
+1.  **Container Configuration**:
+    *   Enable **"Interactive Terminal Access"**.
+    *   Set **"SSH Server"** to **Enabled**.
+    *   (Optional) Use "RunPod Volume" for persistence.
+    *   **Port Exposure**: Ensure TCP port `8080` is exposed if you plan to access the API directly.
 
-If simple greeting/question, set direct=true and agents=[].
-If needs specialized work, set direct=false and list needed agents.
-"""
-        
-        response = await self.llm.chat(
-            system_prompt="You are a task router. Respond only with valid JSON.",
-            user_prompt=routing_prompt,
-            temperature=0.3
-        )
-        
-        try:
-            # Parse JSON from response
-            start = response.find("{")
-            end = response.rfind("}") + 1
-            if start >= 0 and end > start:
-                return json.loads(response[start:end])
-        except (json.JSONDecodeError, ValueError):
-            pass
-        
-        # Default to analyzer if parsing fails
-        return {"direct": False, "agents": ["analyzer"]}
-    
-    async def _direct_response(self, user_input: str) -> str:
-        """Handle simple queries directly."""
-        return await self.llm.chat(
-            system_prompt=self.system_prompt,
-            user_prompt=user_input
-        )
-    
-    async def _execute_agents(self, agent_ids: List[str], task: str) -> List[AgentResult]:
-        """Execute task across specified agents."""
-        results = []
-        
-        for agent_id in agent_ids:
-            agent = self.agents.get(agent_id) or self.custom_agents.get(agent_id)
-            if agent:
-                try:
-                    result = await agent.execute(task)
-                    results.append(AgentResult(
-                        agent_id=agent_id,
-                        success=True,
-                        result=result
-                    ))
-                except Exception as e:
-                    results.append(AgentResult(
-                        agent_id=agent_id,
-                        success=False,
-                        result="",
-                        error=str(e)
-                    ))
-        
-        return results
-    
-    async def _synthesize(self, original_task: str, results: List[AgentResult]) -> str:
-        """Synthesize agent results into final response."""
-        # Filter successful results
-        successful_results = [r for r in results if r.success]
-        
-        if not successful_results:
-            return "I encountered issues processing your request. Please try again."
-        
-        if len(successful_results) == 1:
-            return successful_results[0].result
-        
-        # Multiple agent results - synthesize
-        results_text = "\n\n".join([
-            f"[{r.agent_id.upper()}]:\n{r.result}" for r in successful_results
-        ])
-        
-        synth_prompt = f"""
-Original task: {original_task}
+2.  **Post-Start Script**:
+    Copy and paste this script into the "Post-Start Script" field. This script installs vLLM, configures SSH to prevent PTY errors, and starts the inference server automatically.
 
-Agent results:
-{results_text}
+    ```bash
+    #!/bin/bash
 
-Synthesize these results into a clear, unified response.
-"""
-        
-        return await self.llm.chat(
-            system_prompt=self.system_prompt,
-            user_prompt=synth_prompt
-        )
-    
-    def add_custom_agent(self, agent_config: Dict) -> bool:
-        """Add a custom agent created via Agent Builder."""
-        try:
-            agent = Agent(
-                agent_id=agent_config["agent_id"],
-                system_prompt=agent_config["system_prompt"],
-                llm_client=self.llm
-            )
-            self.custom_agents[agent_config["agent_id"]] = agent
-            return True
-        except Exception:
-            return False
-    
-    def remove_custom_agent(self, agent_id: str) -> bool:
-        """Remove a custom agent."""
-        if agent_id in self.custom_agents:
-            del self.custom_agents[agent_id]
-            return True
-        return False
-    
-    def list_agents(self) -> Dict[str, List[str]]:
-        """List all available agents."""
-        return {
-            "builtin": list(self.agents.keys()),
-            "custom": list(self.custom_agents.keys())
-        }
-    
-    def clear_history(self):
-        """Clear conversation history."""
-        self.conversation_history = []
+    # Update system packages
+    apt update && apt upgrade -y
 
+    # Install additional dependencies for vLLM
+    apt install -y git curl wget build-essential
 
-class Agent:
-    """A specialized agent with specific capabilities."""
-    
-    def __init__(self, agent_id: str, system_prompt: str, llm_client):
-        self.id = agent_id
-        self.system_prompt = system_prompt
-        self.llm = llm_client
-        self.task_count = 0
-    
-    async def execute(self, task: str) -> str:
-        """Execute a task using this agent's specialization."""
-        self.task_count += 1
-        
-        return await self.llm.chat(
-            system_prompt=self.system_prompt,
-            user_prompt=task
-        )
-    
-    def get_stats(self) -> Dict[str, Any]:
-        """Get agent statistics."""
-        return {
-            "id": self.id,
-            "task_count": self.task_count
-        }
+    # Install vLLM with all dependencies
+    pip install vllm --upgrade
+
+    # Configure SSH for PTY allocation (prevents connection errors)
+    sed -i 's/#AllowTcpForwarding yes/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+    sed -i 's/#PermitTunnel yes/PermitTunnel yes/' /etc/ssh/sshd_config
+    systemctl restart sshd
+
+    # Create vLLM startup script
+    cat > /root/start_vllm.sh << 'EOF'
+    #!/bin/bash
+    cd /root
+    nohup python -m vllm.entrypoints.openai.api_server \
+      --model Qwen/Qwen2.5-32B-Instruct \
+      --tensor-parallel-size 2 \
+      --host 0.0.0.0 \
+      --port 8080 \
+      --max-model-len 32768 \
+      --trust-remote-code \
+      --dtype auto \
+      > vllm.log 2>&1 &
+    echo "vLLM started with PID $!"
+    EOF
+
+    chmod +x /root/start_vllm.sh
+
+    # Start vLLM
+    /root/start_vllm.sh
+
+    echo "RunPod setup complete!"
+    echo "vLLM should be running on port 8080"
+    echo "SSH is configured for PTY allocation"
+    ```
+    *Note: Adjust `--tensor-parallel-size` if you are using a different number of GPUs (e.g., 1 for a single RTX 4090).*
+
+### Alternative: Custom Template with vLLM
+
+If you want to create a custom template with vLLM pre-installed (to save startup time):
+
+1. **Start with base template:** `runpod/pytorch:2.8.0-py3.11-cuda12.8.1-cudnn-devel-ubuntu22.04`
+2. **Add to Container Configuration:**
+   - **Container Volume:** 50GB+ (for model downloads)
+   - **Expose Ports:** 8080 (for vLLM)
+3. **Post-Start Script:** Use the script above (but you can skip the `pip install vllm --upgrade` line if you save the template after installation).
+
+### Verification Steps
+
+After RunPod starts:
+1. **SSH into pod:** `ssh root@ssh.runpod.io -p YOUR_PORT`
+2. **Check vLLM:** `curl http://localhost:8080/v1/models`
+3. **Check logs:** `tail -f /root/vllm.log`
+
+The vLLM installation will take 2-3 minutes during pod startup, but then it's ready to use immediately.
+
+## 3. Connecting TitanU OS
+
+Once your RunPod instance is running:
+
+1.  Get the connection details from the RunPod dashboard (Connect button).
+    *   **Host**: Usually `ssh.runpod.io`
+    *   **Port**: A 5-digit port number (e.g., `22123`)
+    *   **User**: `root`
+
+2.  Update your local configuration:
+    *   Open `titanu-os/backend/config/gpu_config.json`
+    *   Update the `port` field with your new RunPod port.
+    *   Ensure `host` is set to `ssh.runpod.io`.
+
+    Example `gpu_config.json`:
+    ```json
+    {
+      "provider": "runpod",
+      "host": "ssh.runpod.io",
+      "port": 22123,
+      "user": "root",
+      "local_port": 8080,
+      "vllm_port": 8080,
+      "model": "Qwen/Qwen2.5-32B-Instruct",
+      "enabled": true
+    }
+    ```
+
+3.  Restart TitanU OS Backend to apply changes.

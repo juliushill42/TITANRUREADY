@@ -1,0 +1,57 @@
+# Simulate Fresh Install Script for TitanU OS
+# This script clears all local configuration and state data to simulate a fresh install.
+
+Write-Host "⚠️  WARNING: This will delete all TitanU local data, including:" -ForegroundColor Yellow
+Write-Host "   - Genesis Key registration"
+Write-Host "   - Local Memory (Chat history)"
+Write-Host "   - User Preferences"
+Write-Host "   - Electron App Data"
+Write-Host ""
+Write-Host "Press any key to continue or Ctrl+C to cancel..."
+$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+# 1. Stop Processes
+Write-Host "`n[1/3] Stopping TitanU processes..." -ForegroundColor Cyan
+try {
+    Stop-Process -Name "TitanU OS" -ErrorAction SilentlyContinue -Force
+    Stop-Process -Name "titan_backend" -ErrorAction SilentlyContinue -Force
+    Stop-Process -Name "electron" -ErrorAction SilentlyContinue -Force # Only if running in dev
+    Write-Host "Processes stopped." -ForegroundColor Green
+} catch {
+    Write-Host "Error stopping processes: $_" -ForegroundColor Red
+}
+
+# 2. Clear Backend Data (Genesis Key & Memory)
+Write-Host "`n[2/3] Clearing Backend Data (Genesis Key & Memory)..." -ForegroundColor Cyan
+$BackendDataPath = "$env:LOCALAPPDATA\TitanU"
+
+if (Test-Path $BackendDataPath) {
+    try {
+        Remove-Item -Path $BackendDataPath -Recurse -Force -ErrorAction Stop
+        Write-Host "Deleted: $BackendDataPath" -ForegroundColor Green
+    } catch {
+        Write-Host "Failed to delete backend data: $_" -ForegroundColor Red
+        Write-Host "Make sure TitanU is completely closed." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "Backend data not found (already clean)." -ForegroundColor Gray
+}
+
+# 3. Clear Frontend Data (Electron Storage, Cache, LocalStorage)
+Write-Host "`n[3/3] Clearing Frontend Data (Electron AppData)..." -ForegroundColor Cyan
+# The folder name usually matches the 'name' field in package.json
+$ElectronAppDataPath = "$env:APPDATA\titanu-os-commander-edition"
+
+if (Test-Path $ElectronAppDataPath) {
+    try {
+        Remove-Item -Path $ElectronAppDataPath -Recurse -Force -ErrorAction Stop
+        Write-Host "Deleted: $ElectronAppDataPath" -ForegroundColor Green
+    } catch {
+        Write-Host "Failed to delete frontend data: $_" -ForegroundColor Red
+    }
+} else {
+    Write-Host "Frontend data not found (already clean)." -ForegroundColor Gray
+}
+
+Write-Host "`n✅ Fresh Install Simulation Complete!" -ForegroundColor Green
+Write-Host "You can now launch TitanU OS, and it should prompt for the Genesis Key."

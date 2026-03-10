@@ -1,35 +1,68 @@
-# Tatiana OS Bridge - Install Script
-# Requires Administrator
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TitanU Commander</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="app-shell">
+    <div class="header">
+        <h1>TITANU COMMANDER</h1>
+        <div class="subtitle">AI AGENT SWARM • LOCAL & PRIVATE</div>
+    </div>
 
-$ServiceName = "TatianaOSBridge"
-$BaseDir = "C:\Tatiana-OS-Bridge"
-$ExePath = "$BaseDir\bin\tatiana_os_bridge.exe"
-$NSSM = "$BaseDir\bin\nssm.exe" # Assuming nssm.exe is inside the bin folder
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header-row">
+                <h2>Agent Console</h2>
+                <button class="export-btn" onclick="exportTranscript()">EXPORT LOG</button>
+            </div>
+            <div id="agents"></div>
+        </aside>
 
-if (!(Test-Path $ExePath)) {
-    Write-Error "Executable not found: $ExePath. Please ensure it is in the bin folder."
-    exit 1
-}
+        <section class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <div class="chat-title">Titan Ops Terminal</div>
+                    <div class="chat-pill">Operator ↔ Coordinator ↔ Specialist Agents</div>
+                </div>
+                <div class="chat-header-right">
+                    <div class="mode-select">
+                        <select id="mode-select" class="mode-select-el">
+                            <option value="fast">FAST</option>
+                            <option value="balanced">BALANCED</option>
+                            <option value="quality">QUALITY</option>
+                        </select>
+                    </div>
+                    <div class="status-chip">
+                        <span class="status-dot"></span>
+                        LOCAL • STABLE
+                    </div>
+                </div>
+            </div>
 
-# --- Create Base and Log Directories ---
-New-Item -ItemType Directory -Force -Path $BaseDir | Out-Null
-New-Item -ItemType Directory -Force -Path "$BaseDir\logs" | Out-Null
+            <div class="chat-body" id="chat-body"></div>
 
-# --- Install and Configure service using NSSM ---
-# This registers the service with Windows
-& $NSSM install $ServiceName $ExePath
-
-# Set service parameters (CWD, logging, environment)
-& $NSSM set $ServiceName AppDirectory $BaseDir
-& $NSSM set $ServiceName AppStdout "$BaseDir\logs\stdout.log"
-& $NSSM set $ServiceName AppStderr "$BaseDir\logs\stderr.log"
-
-# IMPORTANT: These environment variables tell the bridge where to find the existing Tatiana backend
-& $NSSM set $ServiceName AppEnvironmentExtra `"TATIANA_HOST=127.0.0.1"` `"TATIANA_PORT=7878"`
-
-# Set restart policy (Starts automatically on boot, restarts after 5 seconds if it fails)
-& $NSSM set $ServiceName Start SERVICE_AUTO_START
-& $NSSM set $ServiceName AppRestartDelay 5000 
-
-Start-Service $ServiceName
-Write-Host "Tatiana OS Bridge installed and started."
+            <div class="chat-footer">
+                <div class="quick-actions">
+                    <div class="chip" onclick="applyQuickAction('/analyze ', 'Analyze this: ')">[Analyze]</div>
+                    <div class="chip" onclick="applyQuickAction('/research ', 'Research this: ')">[Research]</div>
+                    <div class="chip" onclick="applyQuickAction('/email ', 'Draft a cold email about: ')">[Generate Email]</div>
+                    <div class="chip" onclick="applyQuickAction('/optimize ', 'Optimize this workflow: ')">[Optimize]</div>
+                </div>
+                <div class="chat-input-row">
+                    <input id="task-input" class="chat-input">
+                    <button class="chat-send-btn" onclick="submitTask()">
+                        <span>SEND</span>
+                        <span>➤</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="/static/script.js"></script>
+</body>
+</html>
